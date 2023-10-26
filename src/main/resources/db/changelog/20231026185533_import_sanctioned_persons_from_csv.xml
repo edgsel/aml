@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="Import sanctioned persons from CSV" author="Edgar Selihov">
+        <loadUpdateData primaryKey="id"
+                        tableName="sanctioned_person"
+                        file="db/csv/ConList.csv"
+                        separator=","
+                        encoding="UTF-8"
+        >
+            <column header="Name 6" name="name_6" type="TINYTEXT"/>
+            <column header="Name 1" name="name_1" type="TINYTEXT"/>
+            <column header="Name 2" name="name_2" type="TINYTEXT"/>
+            <column header="Name 3" name="name_3" type="TINYTEXT"/>
+            <column header="Name 4" name="name_4" type="TINYTEXT"/>
+            <column header="Name 5" name="name_5" type="TINYTEXT"/>
+            <column header="Title" name="title" type="TINYTEXT"/>
+            <column header="Name Non-Latin Script" name="name_non_latin_script" type="TINYTEXT"/>
+            <column header="Non-Latin Script Type" name="non_latin_script_type" type="TINYTEXT"/>
+            <column header="Non-Latin Script Language" name="non_latin_script_language" type="TINYTEXT"/>
+            <column header="DOB" name="dob" type="TINYTEXT"/>
+            <column header="Town of Birth" name="town_of_birth" type="TINYTEXT"/>
+            <column header="Country of Birth" name="country_of_birth" type="TINYTEXT"/>
+            <column header="Nationality" name="nationality" type="TINYTEXT"/>
+            <column header="Passport Number" name="passport_number" type="TINYTEXT"/>
+            <column header="Passport Details" name="passport_details" type="TINYTEXT"/>
+            <column header="National Identification Number" name="national_identification_number" type="TINYTEXT"/>
+            <column header="National Identification Details" name="national_identification_details" type="TINYTEXT"/>
+            <column header="Position" name="position" type="TINYTEXT"/>
+            <column header="Address 1" name="address_1" type="TEXT"/>
+            <column header="Address 2" name="address_2" type="TEXT"/>
+            <column header="Address 3" name="address_3" type="TEXT"/>
+            <column header="Address 4" name="address_4" type="TEXT"/>
+            <column header="Address 5" name="address_5" type="TEXT"/>
+            <column header="Address 6" name="address_6" type="TEXT"/>
+            <column header="Post/Zip Code" name="post_zip_code" type="TINYTEXT"/>
+            <column header="Country" name="country" type="TINYTEXT"/>
+            <column header="Other Information" name="other_information" type="TEXT"/>
+            <column header="Group Type" name="group_type" type="TINYTEXT"/>
+            <column header="Alias Type" name="alias_type" type="TINYTEXT"/>
+            <column header="Alias Quality" name="alias_quality" type="TINYTEXT"/>
+            <column header="Regime" name="regime" type="TINYTEXT"/>
+            <column header="Listed On" name="listed_on" type="TINYTEXT"/>
+            <column header="UK Sanctions List Date Designated" name="uk_sanctions_list_date_designated"
+                    type="TINYTEXT"/>
+            <column header="Last Updated" name="last_updated" type="TINYTEXT"/>
+            <column header="Group ID" name="group_id" type="INT"/>
+        </loadUpdateData>
+    </changeSet>
+</databaseChangeLog>
