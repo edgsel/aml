@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <changeSet id="Create sanctioned person table" author="Edgar Selihov">
+        <sql>
+            CREATE TABLE sanctioned_person
+            (
+                id                                SERIAL PRIMARY KEY,
+                name_6                            VARCHAR NOT NULL,
+                name_1                            VARCHAR,
+                name_2                            VARCHAR,
+                name_3                            VARCHAR,
+                name_4                            VARCHAR,
+                name_5                            VARCHAR,
+                title                             VARCHAR,
+                name_non_latin_script             VARCHAR,
+                non_latin_script_type             VARCHAR,
+                non_latin_script_language         VARCHAR,
+                dob                               VARCHAR,
+                town_of_birth                     VARCHAR,
+                country_of_birth                  VARCHAR,
+                nationality                       VARCHAR,
+                passport_number                   VARCHAR,
+                passport_details                  VARCHAR,
+                national_identification_number    VARCHAR,
+                national_identification_details   VARCHAR,
+                position                          VARCHAR,
+                address_1                         VARCHAR,
+                address_2                         VARCHAR,
+                address_3                         VARCHAR,
+                address_4                         VARCHAR,
+                address_5                         VARCHAR,
+                address_6                         VARCHAR,
+                post_zip_code                     VARCHAR,
+                country                           VARCHAR,
+                other_information                 VARCHAR,
+                group_type                        VARCHAR,
+                alias_type                        VARCHAR,
+                alias_quality                     VARCHAR,
+                regime                            VARCHAR,
+                listed_on                         VARCHAR,
+                uk_sanctions_list_date_designated VARCHAR,
+                last_updated                      VARCHAR,
+                group_id                          INT
+            ) PARTITION BY HASH(id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="Create partitions for sanctioned_person table" author="Edgar Selihov">
+        <sql>
+            CREATE TABLE sanctioned_person_0 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 0);
+            CREATE TABLE sanctioned_person_1 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 1);
+            CREATE TABLE sanctioned_person_2 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 2);
+            CREATE TABLE sanctioned_person_3 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 3);
+            CREATE TABLE sanctioned_person_4 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 4);
+            CREATE TABLE sanctioned_person_5 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 5);
+            CREATE TABLE sanctioned_person_6 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 6);
+            CREATE TABLE sanctioned_person_7 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 7);
+            CREATE TABLE sanctioned_person_8 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 8);
+            CREATE TABLE sanctioned_person_9 PARTITION OF sanctioned_person FOR VALUES WITH (MODULUS 10, REMAINDER 9);
+        </sql>
+    </changeSet>
+
+    <changeSet id="Create sanctioned_person name column indices" author="Edgar Selihov">
+        <createIndex tableName="sanctioned_person" indexName="name_1_idx">
+            <column name="name_1"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_2_idx">
+            <column name="name_2"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_3_idx">
+            <column name="name_3"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_4_idx">
+            <column name="name_4"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_5_idx">
+            <column name="name_5"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_6_idx">
+            <column name="name_6"/>
+        </createIndex>
+        <createIndex tableName="sanctioned_person" indexName="name_non_latin_script_idx">
+            <column name="name_non_latin_script"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
