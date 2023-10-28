@@ -1,4 +1,4 @@
-package ee.lhv.aml.rest;
+package ee.lhv.aml.rest.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
