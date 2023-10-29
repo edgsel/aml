@@ -7,7 +7,7 @@ import java.util.Set;
 
 import static java.util.Arrays.asList;
 
-public class NamePreprocessor {
+public class NamePreprocessorUtil {
 
     // If needed, new noise words can be added
     private static final Set<String> NOISE_WORDS = new HashSet<>(asList("the", "to", "an", "mrs", "mr", "and"));
