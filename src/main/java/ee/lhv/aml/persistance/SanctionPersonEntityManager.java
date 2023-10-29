@@ -38,12 +38,12 @@ public class SanctionPersonEntityManager {
     private Predicate createNamePredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
         Predicate[] predicates = nameTokens.stream()
             .map(token -> cb.or(
-                cb.like(root.get("name6"), "%" + token + "%"),
-                cb.like(root.get("name1"), "%" + token + "%"),
-                cb.like(root.get("name2"), "%" + token + "%"),
-                cb.like(root.get("name3"), "%" + token + "%"),
-                cb.like(root.get("name4"), "%" + token + "%"),
-                cb.like(root.get("name5"), "%" + token + "%")
+                cb.like(cb.lower(root.get("name6")), "%" + token + "%"),
+                cb.like(cb.lower(root.get("name1")), "%" + token + "%"),
+                cb.like(cb.lower(root.get("name2")), "%" + token + "%"),
+                cb.like(cb.lower(root.get("name3")), "%" + token + "%"),
+                cb.like(cb.lower(root.get("name4")), "%" + token + "%"),
+                cb.like(cb.lower(root.get("name5")), "%" + token + "%")
             )).toArray(Predicate[]::new);
 
         return cb.or(predicates);
