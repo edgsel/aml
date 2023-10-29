@@ -46,7 +46,9 @@
                 listed_on                         VARCHAR,
                 uk_sanctions_list_date_designated VARCHAR,
                 last_updated                      VARCHAR,
-                group_id                          INT
+                group_id                          INT,
+                create_dtime    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                update_dtime    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             ) PARTITION BY HASH(id);
         </sql>
     </changeSet>
