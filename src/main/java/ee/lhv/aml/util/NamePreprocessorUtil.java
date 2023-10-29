@@ -12,7 +12,7 @@ public class NamePreprocessorUtil {
     // If needed, new noise words can be added
     private static final Set<String> NOISE_WORDS = new HashSet<>(asList("the", "to", "an", "mrs", "mr", "and"));
 
-    private static final Transliterator TRANSLITERATOR = Transliterator.getInstance("Any-Latin");
+    private static final Transliterator TRANSLITERATOR = Transliterator.getInstance("Russian-Latin/BGN");
 
     public static Set<String> preprocessName(String name) {
         name = name.toLowerCase().replaceAll("[.,!?]", " ");
