@@ -15,7 +15,7 @@ public class NamePreprocessorUtil {
     private static final Transliterator TRANSLITERATOR = Transliterator.getInstance("Any-Latin");
 
     public static Set<String> preprocessName(String name) {
-        name = name.toLowerCase().replaceAll("[.,!?]", "");
+        name = name.toLowerCase().replaceAll("[.,!?]", " ");
         name = TRANSLITERATOR.transliterate(name);
 
         String[] nameTokens = name.split("\\s+");
