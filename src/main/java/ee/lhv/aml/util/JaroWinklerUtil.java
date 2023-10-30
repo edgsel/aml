@@ -13,7 +13,7 @@ public class JaroWinklerUtil {
 
     private static final double SIMILARITY_THRESHOLD = 0.85;
 
-    private static final double THRESHOLD = 0.75;
+    private static final double NAME_TOKEN_MATCHING_THRESHOLD = 0.75;
 
     private static final JaroWinklerSimilarity jaroWinklerSimilarity = new JaroWinklerSimilarity();
 
@@ -47,6 +47,6 @@ public class JaroWinklerUtil {
             .count();
 
         // 75% of name tokens should be in joinedNameFields
-        return count >= (THRESHOLD * nameTokens.size());
+        return count >= (NAME_TOKEN_MATCHING_THRESHOLD * nameTokens.size());
     }
 }
