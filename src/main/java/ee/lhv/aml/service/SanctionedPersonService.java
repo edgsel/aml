@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import static ee.lhv.aml.util.JaroWinklerUtil.isSimilarEnough;
-import static ee.lhv.aml.util.NamePreprocessorUtil.joinPreprocessedNameTokens;
-import static ee.lhv.aml.util.NamePreprocessorUtil.preprocessName;
+import static ee.lhv.aml.util.NameUtil.preprocessName;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +22,8 @@ public class SanctionedPersonService {
         Set<String> userTokens = preprocessName(user);
         List<SanctionedPerson> queryResults = sanctionedPersonEntityManager.findSanctionedPersons(slTokens, userTokens);
 
-        String joinedSlTokens = joinPreprocessedNameTokens(slTokens);
-        String joinedUserTokens = joinPreprocessedNameTokens(userTokens);
-
         return queryResults.stream()
-            .filter(result -> isSimilarEnough(joinedSlTokens, result) || isSimilarEnough(joinedUserTokens, result))
+            .filter(result -> isSimilarEnough(slTokens, result) || isSimilarEnough(slTokens, result))
             .toList();
     }
 }
