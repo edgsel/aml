@@ -3,6 +3,7 @@ package ee.lhv.aml.util;
 import com.ibm.icu.text.Transliterator;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -19,7 +20,7 @@ public class NamePreprocessorUtil {
         name = TRANSLITERATOR.transliterate(name);
 
         String[] nameTokens = name.split("\\s+");
-        HashSet<String> result = new HashSet<>();
+        HashSet<String> result = new LinkedHashSet<>(); // save the order of string tokens
 
         for (String nameToken: nameTokens) {
             if (!NOISE_WORDS.contains(nameToken)) {
@@ -28,5 +29,9 @@ public class NamePreprocessorUtil {
         }
 
         return result;
+    }
+
+    public static String joinPreprocessedNameTokens(Set<String> nameTokens) {
+        return String.join(" ", nameTokens);
     }
 }
