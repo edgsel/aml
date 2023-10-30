@@ -16,17 +16,18 @@ import static ee.lhv.aml.util.NamePreprocessorUtil.preprocessName;
 @RequiredArgsConstructor
 public class SanctionedPersonService {
 
-    private final SanctionPersonEntityManager sanctionPersonEntityManager;
+    private final SanctionPersonEntityManager sanctionedPersonEntityManager;
 
-    public boolean isNameInSanctionedPersons(String sl, String user) {
+    public List<SanctionedPerson> isNameInSanctionedPersons(String sl, String user) {
         Set<String> slTokens = preprocessName(sl);
         Set<String> userTokens = preprocessName(user);
-        List<SanctionedPerson> queryResults = sanctionPersonEntityManager.findSanctionedPersons(slTokens, userTokens);
+        List<SanctionedPerson> queryResults = sanctionedPersonEntityManager.findSanctionedPersons(slTokens, userTokens);
 
         String joinedSlTokens = joinPreprocessedNameTokens(slTokens);
         String joinedUserTokens = joinPreprocessedNameTokens(userTokens);
 
         return queryResults.stream()
-            .anyMatch(result -> isSimilarEnough(joinedSlTokens, result) || isSimilarEnough(joinedUserTokens, result));
+            .filter(result -> isSimilarEnough(joinedSlTokens, result) || isSimilarEnough(joinedUserTokens, result))
+            .toList();
     }
 }
