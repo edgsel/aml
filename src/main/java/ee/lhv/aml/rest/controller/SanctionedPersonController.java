@@ -26,7 +26,7 @@ public class SanctionedPersonController extends AmlApiController {
 
     private final SanctionedPersonMapper sanctionedPersonMapper;
 
-    @PostMapping("/sanctioned-person/checking")
+    @PostMapping("/sanctioned-person/check")
     public ResponseEntity<List<SanctionedPersonResponse>> checkPerson(@Valid @RequestBody SanctionedPersonCheckRequest request) {
         List<SanctionedPerson> results = sanctionedPersonService
             .isNameInSanctionedPersons(request.getSl(), request.getUser());
