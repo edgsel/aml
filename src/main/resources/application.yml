@@ -2,6 +2,7 @@ server:
   port: 8009
   error:
     include-message: always
+    include-binding-errors: always
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -31,3 +32,11 @@ spring:
     url: 'jdbc:postgresql://localhost:5432/${POSTGRES_DB}'
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
