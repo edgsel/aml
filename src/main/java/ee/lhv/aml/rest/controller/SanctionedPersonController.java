@@ -1,6 +1,9 @@
 package ee.lhv.aml.rest.controller;
 
+import ee.lhv.aml.entity.SanctionedPerson;
 import ee.lhv.aml.rest.dto.request.SanctionedPersonCheckRequest;
+import ee.lhv.aml.rest.dto.response.SanctionedPersonResponse;
+import ee.lhv.aml.rest.mapper.SanctionedPersonMapper;
 import ee.lhv.aml.service.SanctionedPersonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -19,10 +24,13 @@ public class SanctionedPersonController extends AmlApiController {
 
     private final SanctionedPersonService sanctionedPersonService;
 
-    @PostMapping("/sanctioned-person/checking")
-    public ResponseEntity<Boolean> checkPerson(@Valid @RequestBody SanctionedPersonCheckRequest request) {
-        boolean result = sanctionedPersonService.isNameInSanctionedPersons(request.getSl(), request.getUser());
+    private final SanctionedPersonMapper sanctionedPersonMapper;
 
-        return new ResponseEntity<>(result, OK);
+    @PostMapping("/sanctioned-person/checking")
+    public ResponseEntity<List<SanctionedPersonResponse>> checkPerson(@Valid @RequestBody SanctionedPersonCheckRequest request) {
+        List<SanctionedPerson> results = sanctionedPersonService
+            .isNameInSanctionedPersons(request.getSl(), request.getUser());
+
+        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionedPersonsResponse(results), OK);
     }
 }
