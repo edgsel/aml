@@ -1,6 +1,8 @@
 package ee.lhv.aml.entity;
 
+import ee.lhv.aml.converter.StringToLocalDateConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -60,7 +63,8 @@ public class SanctionedPerson implements Serializable {
     private String nonLatinScriptLanguage;
 
     @Column(name = "dob")
-    private String dob;
+    @Convert(converter = StringToLocalDateConverter.class)
+    private LocalDate dob;
 
     @Column(name = "town_of_birth")
     private String townOfBirth;
@@ -126,13 +130,16 @@ public class SanctionedPerson implements Serializable {
     private String regime;
 
     @Column(name = "listed_on")
-    private String listedOn;
+    @Convert(converter = StringToLocalDateConverter.class)
+    private LocalDate listedOn;
 
     @Column(name = "uk_sanctions_list_date_designated")
-    private String ukSanctionsListDateDesignated;
+    @Convert(converter = StringToLocalDateConverter.class)
+    private LocalDate ukSanctionsListDateDesignated;
 
     @Column(name = "last_updated")
-    private String lastUpdated;
+    @Convert(converter = StringToLocalDateConverter.class)
+    private LocalDate lastUpdated;
 
     @Column(name = "group_id")
     private Integer groupId;
