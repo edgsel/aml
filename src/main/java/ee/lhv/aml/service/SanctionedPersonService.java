@@ -2,7 +2,7 @@ package ee.lhv.aml.service;
 
 import ee.lhv.aml.entity.SanctionedPerson;
 import ee.lhv.aml.exception.SanctionedPersonNotFoundException;
-import ee.lhv.aml.persistance.SanctionPersonEntityManager;
+import ee.lhv.aml.persistance.SanctionedPersonEntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import static ee.lhv.aml.util.NameUtil.preprocessName;
 @RequiredArgsConstructor
 public class SanctionedPersonService {
 
-    private final SanctionPersonEntityManager sanctionedPersonEntityManager;
+    private final SanctionedPersonEntityManager sanctionedPersonEntityManager;
 
     public List<SanctionedPerson> isNameInSanctionedPersons(String sl, String user) {
         Set<String> slTokens = preprocessName(sl);
@@ -31,18 +31,29 @@ public class SanctionedPersonService {
             .toList();
     }
 
-    public SanctionedPerson addNewSanctionedPerson(SanctionedPerson sanctionedPerson) {
-        return sanctionedPersonEntityManager.saveSanctionedPerson(sanctionedPerson);
+    public SanctionedPerson addNewSanctionedPerson(SanctionedPerson newPerson) {
+        return sanctionedPersonEntityManager.saveSanctionedPerson(newPerson);
     }
 
-    public SanctionedPerson updateSanctionPerson(Long sanctionedPersonId, SanctionedPerson sanctionedPersonUpdates) {
-        SanctionedPerson existingSanctionedPerson = Optional
-            .ofNullable(sanctionedPersonEntityManager.findSanctionedPersonById(sanctionedPersonId))
+    public SanctionedPerson updateSanctionedPerson(Long personId, SanctionedPerson personUpdates) {
+        SanctionedPerson existingPerson = findSanctionedPerson(personId);
+
+        return sanctionedPersonEntityManager.updateSanctionedPerson(existingPerson, personUpdates);
+    }
+
+    public Boolean deleteSanctionedPerson(Long personId) {
+        SanctionedPerson existingPerson = findSanctionedPerson(personId);
+        SanctionedPerson deletedPerson = sanctionedPersonEntityManager.markPersonAsDeleted(existingPerson);
+        
+        return deletedPerson.getDeleteDtime() != null;
+    }
+
+    private SanctionedPerson findSanctionedPerson(Long personId) {
+        return Optional
+            .ofNullable(sanctionedPersonEntityManager.findSanctionedPersonById(personId))
             .orElseThrow(() -> {
-                final String errorMsg = "Sanctioned person with ID " + sanctionedPersonId + " not found";
+                final String errorMsg = "Sanctioned person with ID " + personId + " not found";
                 return new SanctionedPersonNotFoundException(errorMsg);
             });
-
-        return sanctionedPersonEntityManager.updateSanctionedPerson(existingSanctionedPerson, sanctionedPersonUpdates);
     }
 }

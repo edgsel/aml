@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class SanctionPersonEntityManager {
+public class SanctionedPersonEntityManager {
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -42,11 +42,11 @@ public class SanctionPersonEntityManager {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public SanctionedPerson findSanctionedPersonById(Long sanctionedPersonId) {
+    public SanctionedPerson findSanctionedPersonById(Long personId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<SanctionedPerson> query = cb.createQuery(SanctionedPerson.class);
         Root<SanctionedPerson> sanctionedPersonRoot = query.from(SanctionedPerson.class);
-        Predicate[] predicates = createIdAndDeleteDtimePredicate(cb, sanctionedPersonRoot, sanctionedPersonId);
+        Predicate[] predicates = createIdAndDeleteDtimePredicate(cb, sanctionedPersonRoot, personId);
 
         query.where(predicates);
 
@@ -57,25 +57,25 @@ public class SanctionPersonEntityManager {
     }
 
     @Transactional
-    public SanctionedPerson saveSanctionedPerson(SanctionedPerson newSanctionedPerson) {
-        newSanctionedPerson.setUkSanctionsListDateDesignated(LocalDate.now());
-        newSanctionedPerson.setLastUpdated(LocalDate.now());
-        newSanctionedPerson.setListedOn(LocalDate.now());
+    public SanctionedPerson saveSanctionedPerson(SanctionedPerson newPerson) {
+        newPerson.setUkSanctionsListDateDesignated(LocalDate.now());
+        newPerson.setLastUpdated(LocalDate.now());
+        newPerson.setListedOn(LocalDate.now());
 
         // get up-to-date entity
-        entityManager.persist(newSanctionedPerson);
+        entityManager.persist(newPerson);
         entityManager.flush();
-        entityManager.refresh(newSanctionedPerson);
+        entityManager.refresh(newPerson);
 
-        return newSanctionedPerson;
+        return newPerson;
     }
 
     @Transactional
     public SanctionedPerson updateSanctionedPerson(
-        SanctionedPerson existingSanctionedPerson,
-        SanctionedPerson sanctionPersonUpdates
+        SanctionedPerson existingPerson,
+        SanctionedPerson personUpdates
     ) {
-        SanctionedPerson toBeUpdatedPerson = applyUpdates(existingSanctionedPerson, sanctionPersonUpdates);
+        SanctionedPerson toBeUpdatedPerson = applyUpdates(existingPerson, personUpdates);
         SanctionedPerson updated = entityManager.merge(toBeUpdatedPerson);
 
         // get up-to-date entity
@@ -86,10 +86,16 @@ public class SanctionPersonEntityManager {
     }
 
     @Transactional
-    public SanctionedPerson markPersonAsDeleted(SanctionedPerson existingSanctionedPerson) {
-        existingSanctionedPerson.setDeleteDtime(LocalDateTime.now());
+    public SanctionedPerson markPersonAsDeleted(SanctionedPerson existingPerson) {
+        existingPerson.setDeleteDtime(LocalDateTime.now());
 
-        return entityManager.merge(existingSanctionedPerson);
+        SanctionedPerson markedAsDeleted = entityManager.merge(existingPerson);
+
+        // get up-to-date entity
+        entityManager.flush();
+        entityManager.refresh(markedAsDeleted);
+
+        return markedAsDeleted;
     }
 
     private Predicate createNameSearchPredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
@@ -109,26 +115,26 @@ public class SanctionPersonEntityManager {
     private Predicate[] createIdAndDeleteDtimePredicate(
         CriteriaBuilder cb,
         Root<SanctionedPerson> root,
-        Long sanctionedPersonId
+        Long personId
     ) {
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(cb.equal(root.get("id"), sanctionedPersonId));
+        predicates.add(cb.equal(root.get("id"), personId));
         predicates.add(cb.isNull(root.get("deleteDtime")));
 
         return predicates.toArray(new Predicate[0]);
     }
 
     private SanctionedPerson applyUpdates(
-        SanctionedPerson existingSanctionedPerson,
-        SanctionedPerson sanctionPersonUpdates
+        SanctionedPerson existingPerson,
+        SanctionedPerson personUpdates
     ) {
-        sanctionPersonUpdates.setId(existingSanctionedPerson.getId());
-        sanctionPersonUpdates.setLastUpdated(LocalDate.now());
+        personUpdates.setId(existingPerson.getId());
+        personUpdates.setLastUpdated(LocalDate.now());
 
         // The straightforward way is to update the whole object instead of handling each column
-        BeanUtils.copyProperties(sanctionPersonUpdates, existingSanctionedPerson);
+        BeanUtils.copyProperties(personUpdates, existingPerson);
 
-        return sanctionPersonUpdates;
+        return personUpdates;
     }
 }
