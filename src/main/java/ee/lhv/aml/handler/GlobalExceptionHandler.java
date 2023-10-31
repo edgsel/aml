@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SanctionedPersonNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleSanctionedPersonNotFoundException(SanctionedPersonNotFoundException ex) {
-        log.error(ex.getMessage(), ex);
+        log.warn(ex.getMessage(), ex);
 
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), NOT_FOUND);
     }
