@@ -37,6 +37,10 @@ public class SanctionPersonEntityManager {
         return entityManager.createQuery(query).getResultList();
     }
 
+    public SanctionedPerson findSanctionedPersonById(Long sanctionedPersonId) {
+        return entityManager.find(SanctionedPerson.class, sanctionedPersonId);
+    }
+
     @Transactional
     public SanctionedPerson saveSanctionedPerson(SanctionedPerson newSanctionedPerson) {
         newSanctionedPerson.setUkSanctionsListDateDesignated(LocalDate.now());
