@@ -1,5 +1,6 @@
 package ee.lhv.aml.rest.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
@@ -35,9 +36,12 @@ public class SanctionedPersonResponse {
 
     private String nationality;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dob;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate listedOn;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate lastUpdated;
 }
