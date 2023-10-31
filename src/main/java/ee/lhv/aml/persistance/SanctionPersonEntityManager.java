@@ -47,6 +47,14 @@ public class SanctionPersonEntityManager {
         return newSanctionedPerson;
     }
 
+    @Transactional
+    public SanctionedPerson updateSanctionedPerson(SanctionedPerson existingSanctionedPerson) {
+        existingSanctionedPerson.setLastUpdated(LocalDate.now());
+
+        return entityManager.merge(existingSanctionedPerson);
+    }
+
+
     private Predicate createNamePredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
         Predicate[] predicates = nameTokens.stream()
             .map(token -> cb.or(
