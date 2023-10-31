@@ -9,11 +9,15 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -29,8 +33,8 @@ public class SanctionPersonEntityManager {
         Root<SanctionedPerson> sanctionedPersonRoot = query.from(SanctionedPerson.class);
 
         Predicate predicate = cb.or(
-            createNamePredicate(cb, sanctionedPersonRoot, slTokens),
-            createNamePredicate(cb, sanctionedPersonRoot, userTokens)
+            createNameSearchPredicate(cb, sanctionedPersonRoot, slTokens),
+            createNameSearchPredicate(cb, sanctionedPersonRoot, userTokens)
         );
 
         query.where(predicate);
@@ -39,7 +43,17 @@ public class SanctionPersonEntityManager {
     }
 
     public SanctionedPerson findSanctionedPersonById(Long sanctionedPersonId) {
-        return entityManager.find(SanctionedPerson.class, sanctionedPersonId);
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<SanctionedPerson> query = cb.createQuery(SanctionedPerson.class);
+        Root<SanctionedPerson> sanctionedPersonRoot = query.from(SanctionedPerson.class);
+        Predicate[] predicates = createIdAndDeleteDtimePredicate(cb, sanctionedPersonRoot, sanctionedPersonId);
+
+        query.where(predicates);
+
+        return Optional.of(entityManager.createQuery(query).getResultList())
+            .filter(CollectionUtils::isNotEmpty)
+            .map(results -> results.get(0))
+            .orElse(null);
     }
 
     @Transactional
@@ -71,7 +85,14 @@ public class SanctionPersonEntityManager {
         return updated;
     }
 
-    private Predicate createNamePredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
+    @Transactional
+    public SanctionedPerson markPersonAsDeleted(SanctionedPerson existingSanctionedPerson) {
+        existingSanctionedPerson.setDeleteDtime(LocalDateTime.now());
+
+        return entityManager.merge(existingSanctionedPerson);
+    }
+
+    private Predicate createNameSearchPredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
         Predicate[] predicates = nameTokens.stream()
             .map(token -> cb.or(
                 cb.like(cb.lower(root.get("name6")), "%" + token + "%"),
@@ -83,6 +104,19 @@ public class SanctionPersonEntityManager {
             )).toArray(Predicate[]::new);
 
         return cb.or(predicates);
+    }
+
+    private Predicate[] createIdAndDeleteDtimePredicate(
+        CriteriaBuilder cb,
+        Root<SanctionedPerson> root,
+        Long sanctionedPersonId
+    ) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(cb.equal(root.get("id"), sanctionedPersonId));
+        predicates.add(cb.isNull(root.get("deleteDtime")));
+
+        return predicates.toArray(new Predicate[0]);
     }
 
     private SanctionedPerson applyUpdates(

@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -158,4 +157,7 @@ public class SanctionedPerson {
     @Column(name = "update_dtime", nullable = false)
     @LastModifiedDate
     private LocalDateTime updateDtime;
+
+    @Column(name = "delete_dtime", nullable = false)
+    private LocalDateTime deleteDtime;
 }
