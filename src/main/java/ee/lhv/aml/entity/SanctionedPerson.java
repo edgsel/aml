@@ -55,7 +55,7 @@ public class SanctionedPerson implements Serializable {
     @Column(name = "name_5")
     private String name5;
 
-    @Column(name = "all_names_concatenated")
+    @Column(name = "all_names_concatenated", insertable = false, updatable = false)
     private String allNamesConcatenated;
 
     @Column(name = "title")
