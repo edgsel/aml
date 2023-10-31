@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class NewSanctionedPersonRequest {
+public class SanctionedPersonRequest {
 
     @NotNull(message = "name6 cannot be null!")
     @NotEmpty(message = "name6 cannot be empty!")

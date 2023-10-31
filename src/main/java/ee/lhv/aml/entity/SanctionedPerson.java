@@ -4,6 +4,7 @@ import ee.lhv.aml.converter.StringToLocalDateConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,8 +14,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -25,7 +28,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "sanctioned_person")
-public class SanctionedPerson implements Serializable {
+@EntityListeners(AuditingEntityListener.class)
+public class SanctionedPerson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +53,9 @@ public class SanctionedPerson implements Serializable {
 
     @Column(name = "name_5")
     private String name5;
+
+    @Column(name = "full_name", insertable = false, updatable = false)
+    private String fullName;
 
     @Column(name = "title")
     private String title;
@@ -129,11 +136,11 @@ public class SanctionedPerson implements Serializable {
     @Column(name = "regime")
     private String regime;
 
-    @Column(name = "listed_on")
+    @Column(name = "listed_on", updatable = false)
     @Convert(converter = StringToLocalDateConverter.class)
     private LocalDate listedOn;
 
-    @Column(name = "uk_sanctions_list_date_designated")
+    @Column(name = "uk_sanctions_list_date_designated", updatable = false)
     @Convert(converter = StringToLocalDateConverter.class)
     private LocalDate ukSanctionsListDateDesignated;
 
@@ -144,9 +151,11 @@ public class SanctionedPerson implements Serializable {
     @Column(name = "group_id")
     private Integer groupId;
 
-    @Column(name = "create_dtime")
+    @Column(name = "create_dtime", updatable = false, nullable = false)
+    @CreatedDate
     private LocalDateTime createDtime;
 
-    @Column(name = "update_dtime")
+    @Column(name = "update_dtime", nullable = false)
+    @LastModifiedDate
     private LocalDateTime updateDtime;
 }

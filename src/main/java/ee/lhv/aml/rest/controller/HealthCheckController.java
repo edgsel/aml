@@ -9,7 +9,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class HealthCheckController extends AmlApiController {
 
-    @GetMapping(value = "/health")
+    @GetMapping(value = "/health", produces = "application/json")
     public ResponseEntity<String> healthCheck() {
         return new ResponseEntity<>("I am alive!", OK);
     }

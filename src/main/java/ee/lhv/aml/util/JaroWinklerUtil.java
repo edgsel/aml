@@ -5,7 +5,6 @@ import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 
 import java.util.Set;
 
-import static ee.lhv.aml.util.NameUtil.concatNameFields;
 import static ee.lhv.aml.util.NameUtil.joinPreprocessedNameTokens;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -19,17 +18,10 @@ public class JaroWinklerUtil {
 
     public static boolean isSimilarEnough(Set<String> nameTokens, SanctionedPerson sanctionedPerson) {
         String joinedNameTokens = joinPreprocessedNameTokens(nameTokens);
-        String joinedPersonNameFields = concatNameFields(
-            sanctionedPerson.getName6(),
-            sanctionedPerson.getName1(),
-            sanctionedPerson.getName2(),
-            sanctionedPerson.getName3(),
-            sanctionedPerson.getName4(),
-            sanctionedPerson.getName5()
-        ).toLowerCase();
+        String fullNameLowered = sanctionedPerson.getFullName().toLowerCase();
 
-        return checkWinklerSimilarity(joinedNameTokens, joinedPersonNameFields) ||
-            areMostNameTokensInJoinedName(nameTokens, joinedPersonNameFields);
+        return checkWinklerSimilarity(joinedNameTokens, fullNameLowered) ||
+            areMostNameTokensInJoinedName(nameTokens, fullNameLowered);
     }
 
     private static boolean checkWinklerSimilarity(String nameFromRequest, String nameFromDb) {

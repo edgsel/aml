@@ -32,6 +32,8 @@ public class SanctionedPersonResponse {
 
     private String name6;
 
+    private String fullName;
+
     private String country;
 
     private String nationality;

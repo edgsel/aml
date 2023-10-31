@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,14 +38,37 @@ public class SanctionPersonEntityManager {
         return entityManager.createQuery(query).getResultList();
     }
 
+    public SanctionedPerson findSanctionedPersonById(Long sanctionedPersonId) {
+        return entityManager.find(SanctionedPerson.class, sanctionedPersonId);
+    }
+
     @Transactional
     public SanctionedPerson saveSanctionedPerson(SanctionedPerson newSanctionedPerson) {
         newSanctionedPerson.setUkSanctionsListDateDesignated(LocalDate.now());
         newSanctionedPerson.setLastUpdated(LocalDate.now());
         newSanctionedPerson.setListedOn(LocalDate.now());
 
+        // get up-to-date entity
         entityManager.persist(newSanctionedPerson);
+        entityManager.flush();
+        entityManager.refresh(newSanctionedPerson);
+
         return newSanctionedPerson;
+    }
+
+    @Transactional
+    public SanctionedPerson updateSanctionedPerson(
+        SanctionedPerson existingSanctionedPerson,
+        SanctionedPerson sanctionPersonUpdates
+    ) {
+        SanctionedPerson toBeUpdatedPerson = applyUpdates(existingSanctionedPerson, sanctionPersonUpdates);
+        SanctionedPerson updated = entityManager.merge(toBeUpdatedPerson);
+
+        // get up-to-date entity
+        entityManager.flush();
+        entityManager.refresh(updated);
+
+        return updated;
     }
 
     private Predicate createNamePredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {
@@ -59,5 +83,18 @@ public class SanctionPersonEntityManager {
             )).toArray(Predicate[]::new);
 
         return cb.or(predicates);
+    }
+
+    private SanctionedPerson applyUpdates(
+        SanctionedPerson existingSanctionedPerson,
+        SanctionedPerson sanctionPersonUpdates
+    ) {
+        sanctionPersonUpdates.setId(existingSanctionedPerson.getId());
+        sanctionPersonUpdates.setLastUpdated(LocalDate.now());
+
+        // The straightforward way is to update the whole object instead of handling each column
+        BeanUtils.copyProperties(sanctionPersonUpdates, existingSanctionedPerson);
+
+        return sanctionPersonUpdates;
     }
 }
