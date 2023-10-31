@@ -44,4 +44,7 @@ public class SanctionedPersonResponse {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate lastUpdated;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate ukSanctionsListDateDesignated;
 }

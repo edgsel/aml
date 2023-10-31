@@ -25,6 +25,7 @@ public interface SanctionedPersonMapper {
     @Mapping(target = "dob", source = "sanctionedPerson.dob")
     @Mapping(target = "listedOn", source = "sanctionedPerson.listedOn")
     @Mapping(target = "lastUpdated", source = "sanctionedPerson.lastUpdated")
+    @Mapping(target = "ukSanctionsListDateDesignated", source = "sanctionedPerson.ukSanctionsListDateDesignated")
     SanctionedPersonResponse mapToSanctionPersonResponse(SanctionedPerson sanctionedPerson);
 
     List<SanctionedPersonResponse> mapToSanctionedPersonsResponse(List<SanctionedPerson> sanctionedPersons);
