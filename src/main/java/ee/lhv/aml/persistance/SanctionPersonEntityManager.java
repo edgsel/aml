@@ -48,7 +48,11 @@ public class SanctionPersonEntityManager {
         newSanctionedPerson.setLastUpdated(LocalDate.now());
         newSanctionedPerson.setListedOn(LocalDate.now());
 
+        // get up-to-date entity
         entityManager.persist(newSanctionedPerson);
+        entityManager.flush();
+        entityManager.refresh(newSanctionedPerson);
+
         return newSanctionedPerson;
     }
 

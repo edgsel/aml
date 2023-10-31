@@ -20,6 +20,7 @@ public interface SanctionedPersonMapper {
     @Mapping(target = "name4", source = "sanctionedPerson.name4")
     @Mapping(target = "name5", source = "sanctionedPerson.name5")
     @Mapping(target = "name6", source = "sanctionedPerson.name6")
+    @Mapping(target = "fullName", source = "sanctionedPerson.fullName")
     @Mapping(target = "country", source = "sanctionedPerson.country")
     @Mapping(target = "nationality", source = "sanctionedPerson.nationality")
     @Mapping(target = "dob", source = "sanctionedPerson.dob")
@@ -33,8 +34,7 @@ public interface SanctionedPersonMapper {
     SanctionedPerson mapToSanctionPersonEntity(SanctionedPersonRequest request);
 
     @AfterMapping
-    default void setIsSanctioned(
-        SanctionedPerson sanctionedPerson,
+    default void setIsSanctioned(SanctionedPerson sanctionedPerson,
         @MappingTarget SanctionedPersonResponse personResponse
     ) {
         personResponse.setIsSanctioned(true);

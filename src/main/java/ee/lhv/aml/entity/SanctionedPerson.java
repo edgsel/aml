@@ -18,7 +18,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -30,7 +29,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "sanctioned_person")
 @EntityListeners(AuditingEntityListener.class)
-public class SanctionedPerson implements Serializable {
+public class SanctionedPerson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,8 +54,8 @@ public class SanctionedPerson implements Serializable {
     @Column(name = "name_5")
     private String name5;
 
-    @Column(name = "all_names_concatenated", insertable = false, updatable = false)
-    private String allNamesConcatenated;
+    @Column(name = "full_name", insertable = false, updatable = false)
+    private String fullName;
 
     @Column(name = "title")
     private String title;
