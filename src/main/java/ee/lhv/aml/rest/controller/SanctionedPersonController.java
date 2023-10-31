@@ -1,6 +1,7 @@
 package ee.lhv.aml.rest.controller;
 
 import ee.lhv.aml.entity.SanctionedPerson;
+import ee.lhv.aml.rest.dto.request.NewSanctionedPersonRequest;
 import ee.lhv.aml.rest.dto.request.SanctionedPersonCheckRequest;
 import ee.lhv.aml.rest.dto.response.SanctionedPersonResponse;
 import ee.lhv.aml.rest.mapper.SanctionedPersonMapper;
@@ -32,5 +33,13 @@ public class SanctionedPersonController extends AmlApiController {
             .isNameInSanctionedPersons(request.getSl(), request.getUser());
 
         return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionedPersonsResponse(results), OK);
+    }
+
+    @PostMapping("/sanctioned-person")
+    public ResponseEntity<SanctionedPersonResponse> addNewPerson(@Valid @RequestBody NewSanctionedPersonRequest request) {
+        SanctionedPerson newSanctionedPerson = sanctionedPersonMapper.mapToSanctionPersonEntity(request);
+        SanctionedPerson result = sanctionedPersonService.addNewSanctionedPerson(newSanctionedPerson);
+
+        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionPersonResponse(result), OK);
     }
 }

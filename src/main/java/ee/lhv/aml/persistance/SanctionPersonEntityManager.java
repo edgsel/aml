@@ -7,9 +7,11 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,16 @@ public class SanctionPersonEntityManager {
         query.where(predicate);
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+    @Transactional
+    public SanctionedPerson saveSanctionedPerson(SanctionedPerson newSanctionedPerson) {
+        newSanctionedPerson.setUkSanctionsListDateDesignated(LocalDate.now());
+        newSanctionedPerson.setLastUpdated(LocalDate.now());
+        newSanctionedPerson.setListedOn(LocalDate.now());
+
+        entityManager.persist(newSanctionedPerson);
+        return newSanctionedPerson;
     }
 
     private Predicate createNamePredicate(CriteriaBuilder cb, Root<SanctionedPerson> root, Set<String> nameTokens) {

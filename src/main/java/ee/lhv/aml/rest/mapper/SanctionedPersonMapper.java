@@ -1,6 +1,7 @@
 package ee.lhv.aml.rest.mapper;
 
 import ee.lhv.aml.entity.SanctionedPerson;
+import ee.lhv.aml.rest.dto.request.NewSanctionedPersonRequest;
 import ee.lhv.aml.rest.dto.response.SanctionedPersonResponse;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -24,9 +25,12 @@ public interface SanctionedPersonMapper {
     @Mapping(target = "dob", source = "sanctionedPerson.dob")
     @Mapping(target = "listedOn", source = "sanctionedPerson.listedOn")
     @Mapping(target = "lastUpdated", source = "sanctionedPerson.lastUpdated")
+    @Mapping(target = "ukSanctionsListDateDesignated", source = "sanctionedPerson.ukSanctionsListDateDesignated")
     SanctionedPersonResponse mapToSanctionPersonResponse(SanctionedPerson sanctionedPerson);
 
     List<SanctionedPersonResponse> mapToSanctionedPersonsResponse(List<SanctionedPerson> sanctionedPersons);
+
+    SanctionedPerson mapToSanctionPersonEntity(NewSanctionedPersonRequest request);
 
     @AfterMapping
     default void setIsSanctioned(

@@ -26,4 +26,8 @@ public class SanctionedPersonService {
             .filter(result -> isSimilarEnough(slTokens, result) || isSimilarEnough(slTokens, result))
             .toList();
     }
+
+    public SanctionedPerson addNewSanctionedPerson(SanctionedPerson sanctionedPerson) {
+        return sanctionedPersonEntityManager.saveSanctionedPerson(sanctionedPerson);
+    }
 }
