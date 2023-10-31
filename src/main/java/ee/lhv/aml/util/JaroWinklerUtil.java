@@ -18,10 +18,10 @@ public class JaroWinklerUtil {
 
     public static boolean isSimilarEnough(Set<String> nameTokens, SanctionedPerson sanctionedPerson) {
         String joinedNameTokens = joinPreprocessedNameTokens(nameTokens);
-        String allNamesConcatenated = sanctionedPerson.getFullName().toLowerCase();
+        String fullNameLowered = sanctionedPerson.getFullName().toLowerCase();
 
-        return checkWinklerSimilarity(joinedNameTokens, allNamesConcatenated) ||
-            areMostNameTokensInJoinedName(nameTokens, allNamesConcatenated);
+        return checkWinklerSimilarity(joinedNameTokens, fullNameLowered) ||
+            areMostNameTokensInJoinedName(nameTokens, fullNameLowered);
     }
 
     private static boolean checkWinklerSimilarity(String nameFromRequest, String nameFromDb) {
