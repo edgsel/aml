@@ -27,11 +27,11 @@ public interface SanctionedPersonMapper {
     @Mapping(target = "listedOn", source = "sanctionedPerson.listedOn")
     @Mapping(target = "lastUpdated", source = "sanctionedPerson.lastUpdated")
     @Mapping(target = "ukSanctionsListDateDesignated", source = "sanctionedPerson.ukSanctionsListDateDesignated")
-    SanctionedPersonResponse mapToSanctionPersonResponse(SanctionedPerson sanctionedPerson);
+    SanctionedPersonResponse mapToSanctionedPersonResponse(SanctionedPerson sanctionedPerson);
 
     List<SanctionedPersonResponse> mapToSanctionedPersonsResponse(List<SanctionedPerson> sanctionedPersons);
 
-    SanctionedPerson mapToSanctionPersonEntity(SanctionedPersonRequest request);
+    SanctionedPerson mapToSanctionedPersonEntity(SanctionedPersonRequest request);
 
     @AfterMapping
     default void setIsSanctioned(SanctionedPerson sanctionedPerson,

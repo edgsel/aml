@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,28 +33,35 @@ public class SanctionedPersonController extends AmlApiController {
 
     @PostMapping(value = "/sanctioned-person/check", produces = "application/json")
     public ResponseEntity<List<SanctionedPersonResponse>> checkPerson(@Valid @RequestBody SanctionedPersonCheckRequest request) {
-        List<SanctionedPerson> results = sanctionedPersonService
-            .isNameInSanctionedPersons(request.getSl(), request.getUser());
+        List<SanctionedPerson> results = sanctionedPersonService.isNameInSanctionedPersons(
+            request.getSl(),
+            request.getUser()
+        );
 
         return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionedPersonsResponse(results), OK);
     }
 
     @PostMapping(value = "/sanctioned-person", produces = "application/json")
     public ResponseEntity<SanctionedPersonResponse> addNewPerson(@Valid @RequestBody SanctionedPersonRequest request) {
-        SanctionedPerson newSanctionedPerson = sanctionedPersonMapper.mapToSanctionPersonEntity(request);
-        SanctionedPerson result = sanctionedPersonService.addNewSanctionedPerson(newSanctionedPerson);
+        SanctionedPerson newPerson = sanctionedPersonMapper.mapToSanctionedPersonEntity(request);
+        SanctionedPerson result = sanctionedPersonService.addNewSanctionedPerson(newPerson);
 
-        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionPersonResponse(result), CREATED);
+        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionedPersonResponse(result), CREATED);
     }
 
-    @PutMapping(value = "/sanctioned-person/{sanctionedPersonId}", produces = "application/json")
+    @PutMapping(value = "/sanctioned-person/{personId}", produces = "application/json")
     public ResponseEntity<SanctionedPersonResponse> updatePerson(
-        @PathVariable Long sanctionedPersonId,
+        @PathVariable Long personId,
         @Valid @RequestBody SanctionedPersonRequest request
     ) {
-        SanctionedPerson sanctionedPersonUpdate = sanctionedPersonMapper.mapToSanctionPersonEntity(request);
-        SanctionedPerson result = sanctionedPersonService.updateSanctionPerson(sanctionedPersonId, sanctionedPersonUpdate);
+        SanctionedPerson personUpdate = sanctionedPersonMapper.mapToSanctionedPersonEntity(request);
+        SanctionedPerson result = sanctionedPersonService.updateSanctionedPerson(personId, personUpdate);
 
-        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionPersonResponse(result), OK);
+        return new ResponseEntity<>(sanctionedPersonMapper.mapToSanctionedPersonResponse(result), OK);
+    }
+
+    @DeleteMapping(value = "/sanctioned-person/{personId}", produces = "application/json")
+    public ResponseEntity<Boolean> deletePerson(@PathVariable Long personId) {
+        return new ResponseEntity<>(sanctionedPersonService.deleteSanctionedPerson(personId), OK);
     }
 }
