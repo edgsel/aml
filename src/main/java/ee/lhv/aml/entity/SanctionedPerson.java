@@ -137,11 +137,11 @@ public class SanctionedPerson implements Serializable {
     @Column(name = "regime")
     private String regime;
 
-    @Column(name = "listed_on")
+    @Column(name = "listed_on", updatable = false)
     @Convert(converter = StringToLocalDateConverter.class)
     private LocalDate listedOn;
 
-    @Column(name = "uk_sanctions_list_date_designated")
+    @Column(name = "uk_sanctions_list_date_designated", updatable = false)
     @Convert(converter = StringToLocalDateConverter.class)
     private LocalDate ukSanctionsListDateDesignated;
 
