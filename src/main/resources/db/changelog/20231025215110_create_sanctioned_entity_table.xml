@@ -17,6 +17,14 @@
                 name_3                            VARCHAR,
                 name_4                            VARCHAR,
                 name_5                            VARCHAR,
+                all_names_concatenated            VARCHAR GENERATED ALWAYS AS (
+                                                          COALESCE(name_6, '') || ' ' ||
+                                                          COALESCE(name_1, '') || ' ' ||
+                                                          COALESCE(name_2, '') || ' ' ||
+                                                          COALESCE(name_3, '') || ' ' ||
+                                                          COALESCE(name_4, '') || ' ' ||
+                                                          COALESCE(name_5, '')
+                                                      ) STORED,
                 title                             VARCHAR,
                 name_non_latin_script             VARCHAR,
                 non_latin_script_type             VARCHAR,
@@ -47,8 +55,8 @@
                 uk_sanctions_list_date_designated VARCHAR,
                 last_updated                      VARCHAR,
                 group_id                          INT,
-                create_dtime    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-                update_dtime    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                create_dtime                      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                update_dtime                      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             ) PARTITION BY HASH(id);
         </sql>
     </changeSet>

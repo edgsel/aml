@@ -4,10 +4,7 @@ import com.ibm.icu.text.Transliterator;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 
@@ -36,11 +33,5 @@ public class NameUtil {
 
     public static String joinPreprocessedNameTokens(Set<String> nameTokens) {
         return String.join(" ", nameTokens);
-    }
-
-    public static String concatNameFields(String... nameFields) {
-        return Stream.of(nameFields)
-            .filter(Objects::nonNull)
-            .collect(Collectors.joining(" "));
     }
 }
