@@ -25,7 +25,7 @@ public class SanctionedPersonService {
         List<SanctionedPerson> queryResults = sanctionedPersonEntityManager.findSanctionedPersons(slTokens, userTokens);
 
         return queryResults.stream()
-            .filter(result -> isSimilarEnough(slTokens, result) || isSimilarEnough(slTokens, result))
+            .filter(result -> isSimilarEnough(slTokens, result) || isSimilarEnough(userTokens, result))
             .toList();
     }
 
