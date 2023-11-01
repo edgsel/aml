@@ -48,3 +48,6 @@ Run the project:
 * API docs (more detailed info about DTOs' fields)
 * More tests (acceptance, unit, integration)
 * Improved name matching logic
+
+## Simplified flow diagram of name matching algorithm
+
