@@ -56,6 +56,7 @@ Run the project:
 * API docs (more detailed info about DTOs' fields)
 * More tests (acceptance, unit, integration)
 * Improved name matching logic
+* Elasticsearch instead of Postgres
 
 ## Simplified flow diagram of name matching algorithm
 
