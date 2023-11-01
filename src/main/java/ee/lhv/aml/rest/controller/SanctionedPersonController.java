@@ -3,6 +3,7 @@ package ee.lhv.aml.rest.controller;
 import ee.lhv.aml.entity.SanctionedPerson;
 import ee.lhv.aml.rest.dto.request.SanctionedPersonRequest;
 import ee.lhv.aml.rest.dto.request.SanctionedPersonCheckRequest;
+import ee.lhv.aml.rest.dto.response.ErrorResponse;
 import ee.lhv.aml.rest.dto.response.SanctionedPersonResponse;
 import ee.lhv.aml.rest.mapper.SanctionedPersonMapper;
 import ee.lhv.aml.service.SanctionedPersonService;
@@ -80,7 +81,8 @@ public class SanctionedPersonController extends AmlApiController {
         @ApiResponse(responseCode = "400", description = "Request validation failed",
             content = @Content),
         @ApiResponse(responseCode = "404", description = "Sanctioned person not found",
-            content = @Content) })
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class)) }) })
     @PutMapping(value = "/sanctioned-person/{personId}", produces = "application/json")
     public ResponseEntity<SanctionedPersonResponse> updatePerson(
         @PathVariable Long personId,
@@ -98,7 +100,8 @@ public class SanctionedPersonController extends AmlApiController {
             content = { @Content(mediaType = "application/json",
                 schema = @Schema(implementation = Boolean.class)) }),
         @ApiResponse(responseCode = "404", description = "Sanctioned person not found",
-            content = @Content) })
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class)) }) })
     @DeleteMapping(value = "/sanctioned-person/{personId}", produces = "application/json")
     public ResponseEntity<Boolean> deletePerson(@PathVariable Long personId) {
         return new ResponseEntity<>(sanctionedPersonService.deleteSanctionedPerson(personId), OK);
