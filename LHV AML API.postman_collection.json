@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "1f6382a0-3a61-48e9-9332-c7c8be664bce",
+		"name": "LHV AML API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10176975"
+	},
+	"item": [
+		{
+			"name": "Health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8009/api/v1/health",
+					"host": [
+						"localhost"
+					],
+					"port": "8009",
+					"path": [
+						"api",
+						"v1",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if person is sanctioned",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sl\": \"AAL HARAMMEIN AL MASJED AL-AQSA\",\n    \"user\": \"AL HARAMMEIN AL MASJED AL-AQSA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8009/api/v1/sanctioned-person/check",
+					"host": [
+						"localhost"
+					],
+					"port": "8009",
+					"path": [
+						"api",
+						"v1",
+						"sanctioned-person",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new sanctioned person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name6\": \"ALOHA\",\n    \"name1\": \"SampleValue\",\n    \"name2\": \"SampleValue\",\n    \"name3\": \"SampleValue\",\n    \"name4\": \"SampleValue\",\n    \"name5\": \"SampleValue\",\n    \"title\": \"SampleValue\",\n    \"nameNonLatinScript\": \"SampleValue\",\n    \"nonLatinScriptType\": \"SampleValue\",\n    \"nonLatinScriptLanguage\": \"SampleValue\",\n    \"dob\": \"01/04/1990\",\n    \"townOfBirth\": \"SampleValue\",\n    \"countryOfBirth\": \"SampleValue\",\n    \"nationality\": \"SampleValue\",\n    \"passportNumber\": \"SampleValue\",\n    \"passportDetails\": \"SampleValue\",\n    \"nationalIdentificationNumber\": \"SampleValue\",\n    \"nationalIdentificationDetails\": \"SampleValue\",\n    \"position\": \"SampleValue\",\n    \"address1\": \"SampleValue\",\n    \"address2\": \"SampleValue\",\n    \"address3\": \"SampleValue\",\n    \"address4\": \"SampleValue\",\n    \"address5\": \"SampleValue\",\n    \"address6\": \"SampleValue\",\n    \"postZipCode\": \"SampleValue\",\n    \"country\": \"SampleValue\",\n    \"otherInformation\": \"SampleValue\",\n    \"groupType\": \"SampleValue\",\n    \"aliasType\": \"SampleValue\",\n    \"aliasQuality\": \"SampleValue\",\n    \"regime\": \"SampleValue\",\n    \"groupId\": 1234\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8009/api/v1/sanctioned-person",
+					"host": [
+						"localhost"
+					],
+					"port": "8009",
+					"path": [
+						"api",
+						"v1",
+						"sanctioned-person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Sanction Person",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name6\": \"ALOHA\",\n    \"name1\": \"SampleValue\",\n    \"name2\": \"SampleValue\",\n    \"name3\": \"SampleValue\",\n    \"name4\": \"SampleValue\",\n    \"name5\": \"SampleValue\",\n    \"title\": \"SampleValue\",\n    \"nameNonLatinScript\": \"SampleValue\",\n    \"nonLatinScriptType\": \"SampleValue\",\n    \"nonLatinScriptLanguage\": \"SampleValue\",\n    \"dob\": \"01/04/1990\",\n    \"townOfBirth\": \"SampleValue\",\n    \"countryOfBirth\": \"SampleValue\",\n    \"nationality\": \"SampleValue\",\n    \"passportNumber\": \"SampleValue\",\n    \"passportDetails\": \"SampleValue\",\n    \"nationalIdentificationNumber\": \"SampleValue\",\n    \"nationalIdentificationDetails\": \"SampleValue\",\n    \"position\": \"SampleValue\",\n    \"address1\": \"SampleValue\",\n    \"address2\": \"SampleValue\",\n    \"address3\": \"SampleValue\",\n    \"address4\": \"SampleValue\",\n    \"address5\": \"SampleValue\",\n    \"address6\": \"SampleValue\",\n    \"postZipCode\": \"SampleValue\",\n    \"country\": \"SampleValue\",\n    \"otherInformation\": \"SampleValue\",\n    \"groupType\": \"SampleValue\",\n    \"aliasType\": \"SampleValue\",\n    \"aliasQuality\": \"SampleValue\",\n    \"regime\": \"SampleValue\",\n    \"groupId\": 1234\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8009/api/v1/sanctioned-person/{personId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8009",
+					"path": [
+						"api",
+						"v1",
+						"sanctioned-person",
+						"{personId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Sanctioned Person",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

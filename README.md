@@ -49,6 +49,8 @@ Run the project:
 # API docs
 * For LHV AML API docs go to `http://localhost:8009/docs/swagger-ui/index.html`
 
+# Or
+* Import postman collection (LHV AML API.postman_collection.json)
 
 ## What can be improved
 * API docs (more detailed info about DTOs' fields)
