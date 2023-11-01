@@ -43,4 +43,4 @@ logging:
 
 springdoc:
   swagger-ui:
-    path: /api/v1/swagger-ui.html
+    path: /docs/swagger-ui.html
