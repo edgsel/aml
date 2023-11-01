@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static ee.lhv.aml.util.JaroWinklerUtil.isSimilarEnough;
 import static ee.lhv.aml.util.NameUtil.preprocessName;
 
 @Service
@@ -20,13 +19,15 @@ public class SanctionedPersonService {
 
     private final SanctionedPersonEntityManager sanctionedPersonEntityManager;
 
+    private final JaroWinklerService jaroWinklerService;
+
     public List<SanctionedPerson> isNameInSanctionedPersons(String sl, String user) {
         Set<String> slTokens = preprocessName(sl);
         Set<String> userTokens = preprocessName(user);
         List<SanctionedPerson> queryResults = sanctionedPersonEntityManager.findSanctionedPersons(slTokens, userTokens);
 
         return queryResults.stream()
-            .filter(result -> isSimilarEnough(slTokens, result) || isSimilarEnough(userTokens, result))
+            .filter(result -> areNamesSimilarEnough(result, slTokens, userTokens))
             .sorted(Comparator.comparing(SanctionedPerson::getId))
             .toList();
     }
@@ -55,5 +56,10 @@ public class SanctionedPersonService {
                 final String errorMsg = "Sanctioned person with ID " + personId + " not found";
                 return new SanctionedPersonNotFoundException(errorMsg);
             });
+    }
+
+    private Boolean areNamesSimilarEnough(SanctionedPerson person, Set<String> slTokens, Set<String> userTokens) {
+        return jaroWinklerService.isSimilarEnough(slTokens, person)
+            || jaroWinklerService.isSimilarEnough(userTokens, person);
     }
 }
