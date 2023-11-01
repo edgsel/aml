@@ -40,3 +40,7 @@ logging:
         web:
           filter:
             CommonsRequestLoggingFilter: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /api/v1/swagger-ui.html
