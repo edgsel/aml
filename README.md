@@ -65,7 +65,7 @@ Run the project:
 1. Normalize tokens - Convert all characters to lowercase and strip out any punctuation
 2. Split the names into words/tokens - 'Edgar Selihov' -> ['edgar', 'selihov']
 3. Filter out the noise words like "the", "to", "an", "mrs", "mr", "and" etc
-4. Find all matches of names' substrings in DB - e.g (SELECT name_6 FROM sanctioned_person WHERE name_6 ILIKE '%name_token%' OR name_1 ILIKE '%name_token%') and so on..
+4. Find all matches of names' substrings in DB - e.g (SELECT * FROM sanctioned_person WHERE name_6 ILIKE '%name_token%' OR name_1 ILIKE '%name_token%') and so on..
 5. Filter DB results by Jaro Winkler similarity and string matching:
    * Threshold for Jaro Winkler similarity is set to 0.85
    * String matching takes full name from DB (concatenated name fields [name_6, name_1, name_2, name_3, name_4, name_5]) and name tokens are one by one is checked if full name contains it. String matching threshold is set to 0.75 (75%).
