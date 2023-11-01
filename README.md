@@ -1,6 +1,10 @@
 # LHV AML API v1
 Service to validate if the person is sanctioned by EU banks
 
+## Some info
+I have modified the CSV file a bit (removed first row of the file), because it was composed in a way that
+1st and 2nd rows are headers of columns, although the real headers are on the second row. 
+
 ## Required setup (at the moment of development)
 JDK 17+
 
@@ -30,7 +34,8 @@ Postgres 16 (postgres:latest in docker-compose.yml)
 * `docker-compose up -d postgresdb`
 
 ## 3. To run the project with Gradle for `MacOS/Linux`:
-Build the project (NB! Make sure that env variables are set and exported and DB is up and running as liquibase migrations are run on ./gradlew build):
+Build the project 
+(NB! Make sure that env variables are set and exported and DB is up and running as liquibase migrations are run on ./gradlew build, cold start takes up to 3min [CSV file import is about 17k+ rows]):
 * `./gradlew clean build` 
 
 Run tests:
