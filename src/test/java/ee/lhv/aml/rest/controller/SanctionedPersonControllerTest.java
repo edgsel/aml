@@ -39,6 +39,10 @@ public class SanctionedPersonControllerTest {
     @MockBean
     private SanctionedPersonMapper sanctionedPersonMapper;
 
+    private final static long personId = 1L;
+
+    private final static SanctionedPerson mockedPerson = mockSanctionedPerson();
+
     @BeforeEach
     public void setUp() {
         openMocks(this);
@@ -60,7 +64,6 @@ public class SanctionedPersonControllerTest {
 
     @Test
     public void testAddNewPerson() throws Exception {
-        SanctionedPerson mockedPerson = mockSanctionedPerson();
         when(sanctionedPersonMapper.mapToSanctionedPersonEntity(any())).thenReturn(mockedPerson);
         when(sanctionedPersonService.addNewSanctionedPerson(any())).thenReturn(mockedPerson);
 
@@ -72,9 +75,6 @@ public class SanctionedPersonControllerTest {
 
     @Test
     public void testUpdatePerson() throws Exception {
-        long personId = 1L;
-        SanctionedPerson mockedPerson = mockSanctionedPerson();
-
         when(sanctionedPersonMapper.mapToSanctionedPersonEntity(any())).thenReturn(mockedPerson);
         when(sanctionedPersonService.updateSanctionedPerson(anyLong(), any())).thenReturn(mockedPerson);
 
@@ -86,8 +86,6 @@ public class SanctionedPersonControllerTest {
 
     @Test
     public void testDeletePerson() throws Exception {
-        Long personId = 1L;
-
         when(sanctionedPersonService.deleteSanctionedPerson(anyLong())).thenReturn(true);
 
         mockMvc.perform(delete("/api/v1/sanctioned-person/" + personId)
