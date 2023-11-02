@@ -57,6 +57,7 @@ Run the project:
 * More tests (acceptance, unit, integration)
 * Improved name matching logic
 * Elasticsearch instead of Postgres
+* Pagination can be added to /sanction-person/check in case many matches are returned
 
 ## Simplified flow diagram of name matching algorithm
 
