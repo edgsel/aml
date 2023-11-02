@@ -35,7 +35,7 @@ Postgres 16 (postgres:latest in docker-compose.yml)
 
 ## 3. To run the project with Gradle for `MacOS/Linux`:
 Build the project 
-(NB! Make sure that env variables are set and exported and DB is up and running as liquibase migrations are run on ./gradlew build, cold start takes up to 3min [CSV file import is about 17k+ rows]):
+(**NB!** Make sure that env variables are set and exported and DB is up and running as liquibase migrations are run on ./gradlew build, cold start takes up to 3min [CSV file import is about 17k+ rows]):
 * `./gradlew clean build` 
 
 Run tests:
